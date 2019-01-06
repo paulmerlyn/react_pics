@@ -1,4 +1,5 @@
 import React from 'react';
+import SizeSelector from './SizeSelector';
 
 export default class SearchBar extends React.Component {
     state = {term: 'please enter keywords'};
@@ -19,11 +20,16 @@ export default class SearchBar extends React.Component {
             });
     }
 
+    onSizeSelectorChange(selectedSize) {
+        this.props.onSizeChange(this.state.term, selectedSize);
+        this.setState( {selectedSize: selectedSize});
+    }
+
     onFormSubmit = (event) => {
         event.preventDefault();
         console.log('onSearchSubmit was invoked in the child (SearchBar) component')
         console.log(this.state.term);
-        this.props.onSubmit(this.state.term);
+        this.props.onSubmit(this.state.term, this.state.selectedSize);
     }
 
     /* Note how the onBlur property is assigned an arrow function rather than a handler. This eliminates the need to bind 'this'
@@ -38,13 +44,14 @@ export default class SearchBar extends React.Component {
                         <label>Image Search</label>
                         <input 
                             type="text" 
-                            placeholder="Search..." 
+                            placeholder={this.state.term === 'please enter keywords'? 'Search...' : null} 
                             onChange={e => {this.setState({term: e.target.value})}}
                             onFocus={e => {this.setState({term: ''})}} 
                             onBlur={this.onFormSubmit}
                             value={this.state.term}
                         />
                     </div>
+                    <SizeSelector onChange={this.onSizeSelectorChange.bind(this)} />
                 </form>
             </div>        
             );

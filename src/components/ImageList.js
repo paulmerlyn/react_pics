@@ -1,20 +1,17 @@
 import React from 'react';
+import './ImageList.css';
 
 class ImageList extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         const images = (
             this.props.searchResults ? 
                 this.props.searchResults.map(
-                    (imgUrl, key) => { return <img key={key} src={imgUrl} />}) : 
-                <span>Please wait</span>
+                    (imgUrl, key) => { return <img key={key} src={imgUrl} alt="" height={this.props.selectedSize === "small" ? 200 : null} />}) : 
+                <span>Images will appear here</span>
         );
         return (
-            <div>
+            <div className="">
                 {images}
             </div>
         );
